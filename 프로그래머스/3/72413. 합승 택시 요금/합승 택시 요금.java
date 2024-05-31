@@ -18,12 +18,11 @@ class Solution {
         }
 
         int[] startCosts = dijkstra(s);
+        int[] aCosts = dijkstra(a);
+        int[] bCosts = dijkstra(b);
 
         for (int i = 1; i <= n; i++) {
-            if(startCosts[i] == Integer.MAX_VALUE) continue;
-
-            int[] iCosts = dijkstra(i);
-            answer = Math.min(answer, startCosts[i] + iCosts[a] + iCosts[b]);
+            answer = Math.min(answer, startCosts[i] + aCosts[i] + bCosts[i]);
         }
 
         return answer;
