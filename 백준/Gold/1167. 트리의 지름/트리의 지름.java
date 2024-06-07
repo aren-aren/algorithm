@@ -1,46 +1,54 @@
 import java.util.*;
 
 public class Main{
-    static Map<Integer, Map<Integer, Integer>> map;
+    static class Node{
+        int num;
+        int dist;
+
+        public Node(int num, int dist) {
+            this.num = num;
+            this.dist = dist;
+        }
+    }
+
+    static List<Node>[] list;
     static int max = 0;
+
     public static void main(String[] args){
         Scanner scan = new Scanner(System.in);
 
         int n = scan.nextInt();
 
-        map = new HashMap<>();
+        list = new ArrayList[n];
         for (int i = 0; i < n; i++) {
             int num = scan.nextInt();
 
             int other = scan.nextInt();
-            Map<Integer, Integer> node = new HashMap<>();
+            List<Node> nodes = new ArrayList<>();
             while(other != -1){
                 int dist = scan.nextInt();
-                node.put(other, dist);
+                nodes.add(new Node(other-1, dist));
                 other = scan.nextInt();
             }
 
-            map.put(num, node);
+            list[num-1] = nodes;
         }
-        dfs(0, 1, -1);
+        dfs(0, 0, -1);
 
         System.out.println(max);
     }
 
     public static int dfs(int dist, int now, int prev){
-        Map<Integer, Integer> connected = map.get(now);
+        List<Node> connected = list[now];
 
         int maxLen = 0;
-        for (int key : connected.keySet()) {
-            if (key == prev) continue;
+        for (Node node : connected) {
+            if (node.num == prev) continue;
 
-            int value = connected.get(key);
-
-            int len = dfs(value, key, now);
+            int len = dfs(node.dist, node.num, now);
             max = Math.max(maxLen + len, max);
             maxLen = Math.max(maxLen, len);
         }
-
         return maxLen + dist;
     }
 }
