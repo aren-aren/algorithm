@@ -1,8 +1,6 @@
 import java.util.*;
 
 public class Main{
-    static boolean[][] visited;
-
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
@@ -13,25 +11,22 @@ public class Main{
             int n = scan.nextInt();
 
             int[][] field = new int[n][m];
-            visited = new boolean[n][m];
-
             int k = scan.nextInt();
 
-            List<int[]> list = new ArrayList<>();
             for (int j = 0; j < k; j++) {
                 int x = scan.nextInt();
                 int y = scan.nextInt();
 
                 field[y][x] = 1;
-                list.add(new int[]{y,x});
             }
 
             int count = 0;
-            for (int[] node : list) {
-                if(visited[node[0]][node[1]]) continue;
-
-                bfs(field, node[0], node[1]);
-                count++;
+            for (int y = 0; y < field.length ; y++) {
+                for (int x = 0; x < field[0].length; x++) {
+                    if (field[y][x] == 0) continue;
+                    bfs(field, y, x);
+                    count++;
+                }
             }
 
             System.out.println(count);
@@ -53,9 +48,9 @@ public class Main{
                 int ny = point[0] + dy[i];
 
                 if(nx < 0 || nx >= field[0].length || ny < 0 || ny >= field.length) continue;
-                if(field[ny][nx] == 0 || visited[ny][nx]) continue;
-                
-                visited[ny][nx] = true;
+                if(field[ny][nx] == 0) continue;
+
+                field[ny][nx] = 0;
                 q.add(new int[]{ny, nx});
             }
         }
