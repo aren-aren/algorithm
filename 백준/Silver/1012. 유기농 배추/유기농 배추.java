@@ -47,17 +47,15 @@ public class Main{
 
         while(!q.isEmpty()){
             int[] point = q.poll();
-            if(visited[point[0]][point[1]]) continue;
-
-            visited[point[0]][point[1]] = true;
 
             for (int i = 0; i < 4; i++) {
                 int nx = point[1] + dx[i];
                 int ny = point[0] + dy[i];
 
                 if(nx < 0 || nx >= field[0].length || ny < 0 || ny >= field.length) continue;
-                if(field[ny][nx] == 0) continue;
-
+                if(field[ny][nx] == 0 || visited[ny][nx]) continue;
+                
+                visited[ny][nx] = true;
                 q.add(new int[]{ny, nx});
             }
         }
